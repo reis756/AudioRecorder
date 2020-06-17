@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AudioRecorder</string>
+    <string name="aar_save">Save</string>
+    <string name="aar_paused">Paused</string>
+    <string name="aar_recording">Recording</string>
+    <string name="aar_playing">Playing</string>
+    <string name="stop">stop</string>
+    <string name="play">play</string>
+</resources>
