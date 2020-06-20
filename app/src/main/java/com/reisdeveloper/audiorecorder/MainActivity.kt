@@ -1,16 +1,23 @@
 package com.reisdeveloper.audiorecorder
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.squti.androidwaverecorder.WaveRecorder
+import com.reisdeveloper.audiorecorder.adapters.FilesAdapter
+import com.reisdeveloper.audiorecorder.util.DateTime
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.util.*
@@ -61,6 +68,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        ripple.newRipple()
+
     }
 
     private fun permissionGranted()  =
@@ -77,6 +86,20 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        if(item.itemId == R.id.menu_main) {
+            val intent = Intent(applicationContext, About::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            true
+        }else super.onOptionsItemSelected(item)
+
     override fun onResume() {
         super.onResume()
         setAdapter()
@@ -84,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        recordingsAdapter.clearAudio()
+        recordingsAdapter?.clearAudio()
     }
 
     private fun startRecording() {
@@ -115,7 +138,7 @@ class MainActivity : AppCompatActivity() {
         waveRecorder.stopRecording()
         Toast.makeText(this, "File saved at : $filePath", Toast.LENGTH_LONG).show()
         resetTimer()
-        recordingsAdapter.addRecording(File(filePath))
+        recordingsAdapter?.addRecording(File(filePath))
         record_start_stop.setImageDrawable(getDrawable(R.drawable.aar_ic_rec))
         play.setImageDrawable(getDrawable(R.drawable.aar_ic_play))
     }
@@ -201,10 +224,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setAdapter() {
-        recordingsAdapter.clearRecordings()
+        recordingsAdapter?.clearRecordings()
         if(readPath().isNullOrEmpty().not()){
             readPath()?.forEach {
-                recordingsAdapter.addRecording(it)
+                recordingsAdapter?.addRecording(it)
             }
 
             with(rvRecordings) {

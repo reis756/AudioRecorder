@@ -1,4 +1,4 @@
-package com.reisdeveloper.audiorecorder
+package com.reisdeveloper.audiorecorder.util
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,8 +9,6 @@ import androidx.appcompat.widget.AppCompatDrawableManager
 import androidx.core.graphics.drawable.DrawableCompat
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.Duration
-import java.time.temporal.ChronoUnit
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -59,7 +57,9 @@ class DateTime() {
     //endregion
 
     //region Mês
-    fun getMes(): Mes? = if (this.calendar != null) Mes(this.calendar!!) else null
+    fun getMes(): Mes? = if (this.calendar != null) Mes(
+        this.calendar!!
+    ) else null
 
     data class Mes(private val cal: Calendar) {
         val enum: Int = cal.get(Calendar.MONTH)

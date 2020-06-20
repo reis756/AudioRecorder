@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:id="@+id/list_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +19,7 @@
             android:layout_weight="0.8"
             android:fontFamily="sans-serif-light"
             android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="fill_vertical"
             android:text="16/06/2020 00:02:00"/>
 
@@ -39,6 +40,15 @@
             android:scaleType="fitCenter"
             android:src="@drawable/ic_pause_circle"
             android:contentDescription="@string/stop" />
+
+        <ImageButton
+            android:id="@+id/share"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_share"
+            android:contentDescription="@string/share" />
 
     </LinearLayout>
 

@@ -6,4 +6,29 @@
     <string name="aar_playing">Playing</string>
     <string name="stop">stop</string>
     <string name="play">play</string>
+    <string name="share">share</string>
+    <string name="share_audio">Sharing File…</string>
+    <string name="more">More</string>
+    <string name="about">About</string>
+    <string name="pay_me_a_coffee">Pay me a Coffee</string>
+
+    <string name="about_description">
+        Obrigado por utilizar nosso aplicativo. Aqui você pode reportar erros, elogios ou sugestões.
+    </string>
+    <string name="about_contact_group_title">Entre em contato</string>
+    <string name="about_work_group_title">Mais sobre meu trabalho</string>
+    <string name="about_phone_title">Ligar</string>
+    <string name="about_label_email">E-mail</string>
+    <string name="about_label_website">Web site</string>
+    <string name="about_label_youtube">Tudo sobre imóveis</string>
+    <string name="about_label_facebook">Super promoções</string>
+    <string name="about_label_twitter">Atualização diária</string>
+    <string name="about_whats_app_title">Lhe respondo agora</string>
+    <string name="about_linked_in_title">Minhas recomendações</string>
+    <string name="copy_right" translatable="false">Copyrights © %1$d</string>
+    <string name="connect_us">Connect with us</string>
+    <string name="delete_record">Delete Record?</string>
+    <string name="do_you_really_delete_this_record">Do you really want to delete this record?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
 </resources>

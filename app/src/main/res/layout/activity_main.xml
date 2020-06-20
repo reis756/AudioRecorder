@@ -1,67 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:gravity="center">
+    android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_recordings"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="300dp"
-        tools:listitem="@layout/list_recordings"
-        app:layout_constraintBottom_toTopOf="@+id/timer_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.042" />
+        tools:listitem="@layout/list_recordings" />
 
-    <LinearLayout
-        android:id="@+id/timer_content"
+    <com.reisdeveloper.audiorecorder.effects.RippleView
+        android:id="@+id/ripple"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_timer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_recordings"
+        app:rv_color="@color/colorPrimary"
+        app:rv_radius="15dp"
+        app:rv_scale="4"
+        app:rv_type="stroke">
+
+        <Button
+            android:id="@+id/mic_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_mic_black" />
+    </com.reisdeveloper.audiorecorder.effects.RippleView>
+
+
+    <TextView
+        android:id="@+id/tv_timer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
+        android:fontFamily="sans-serif-thin"
+        android:text="00:00:00"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="60sp"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="-10dp"
-            android:fontFamily="sans-serif-light"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:visibility="invisible" />
-
-        <TextView
-            android:id="@+id/tv_timer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
-            android:text="00:00:00"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="60sp" />
-
-        <!--<TextView
-            android:id="@+id/amplitude"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
-            android:text="Amplitude"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="30sp" />-->
-
-    </LinearLayout>
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_recordings"
+        app:layout_constraintVertical_bias="1.0" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -110,5 +102,4 @@
             android:src="@drawable/aar_ic_play" />
 
     </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
