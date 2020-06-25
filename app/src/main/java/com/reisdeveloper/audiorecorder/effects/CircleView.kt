@@ -1,11 +1,13 @@
 package com.reisdeveloper.audiorecorder.effects
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 
+@SuppressLint("ViewConstructor")
 class CircleView(
     context: Context?,
     attrs: AttributeSet?,
@@ -44,7 +46,7 @@ class CircleView(
     }
 
     override fun onDraw(canvas: Canvas?) {
-        val radius: Float = Math.min(width, height) / 2.toFloat()
+        val radius: Float = (Math.min(width, height) / 2).toFloat()
         canvas?.drawCircle(radius, radius, radius - rippleStrokeWidth, paint)
     }
 }

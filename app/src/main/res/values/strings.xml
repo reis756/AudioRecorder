@@ -4,8 +4,8 @@
     <string name="aar_paused">Paused</string>
     <string name="aar_recording">Recording</string>
     <string name="aar_playing">Playing</string>
-    <string name="stop">stop</string>
-    <string name="play">play</string>
+    <string name="stop">Stop</string>
+    <string name="play">Play</string>
     <string name="share">share</string>
     <string name="share_audio">Sharing File…</string>
     <string name="more">More</string>
@@ -31,4 +31,9 @@
     <string name="do_you_really_delete_this_record">Do you really want to delete this record?</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
+    <string name="record">Record</string>
+    <string name="discard">Discard</string>
+    <string name="accept">Accept</string>
+    <string name="pause">Pause</string>
+    <string name="file_successfully_saved">File successfully saved</string>
 </resources>

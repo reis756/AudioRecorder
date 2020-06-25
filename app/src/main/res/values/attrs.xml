@@ -5,7 +5,6 @@
         <attr name="rv_strokeWidth" format="dimension"/>
         <attr name="rv_radius" format="dimension"/>
         <attr name="rv_scale" format="float"/>
-        <attr name="rv_duration" format="integer"/>
         <attr name="rv_type" format="enum">
             <enum name="fill" value="0"/>
             <enum name="stroke" value="1"/>

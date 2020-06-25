@@ -15,29 +15,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/list_recordings" />
+        tools:listitem="@layout/list_recordings"/>
 
     <com.reisdeveloper.audiorecorder.effects.RippleView
         android:id="@+id/ripple"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_timer"
+        app:layout_constraintBottom_toTopOf="@+id/tv_timer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_recordings"
-        app:rv_color="@color/colorPrimary"
+        app:rv_color="@color/colorPrimaryDark"
         app:rv_radius="15dp"
         app:rv_scale="4"
         app:rv_type="stroke">
 
         <Button
             android:id="@+id/mic_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_centerInParent="true"
             android:background="@drawable/ic_mic_black" />
     </com.reisdeveloper.audiorecorder.effects.RippleView>
-
 
     <TextView
         android:id="@+id/tv_timer"
@@ -64,42 +63,88 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageButton
-            android:id="@+id/restart"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="50dp"
-            android:layout_toStartOf="@+id/record_start_stop"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/aar_ic_restart"
-            android:visibility="invisible" />
+        <LinearLayout
+            android:id="@+id/ll_discard"
+            android:layout_width="@dimen/linearlayout_dimens"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:layout_toStartOf="@+id/ll_start_stop">
+            <ImageButton
+                android:id="@+id/iv_discard"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttons_small"
+                android:scaleType="fitCenter"
+                android:src="@drawable/aar_ic_clear" />
+            <TextView
+                android:id="@+id/tv_discard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:text="@string/discard"
+                />
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/record_start_stop"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            android:layout_margin="15dp"
-            android:layout_marginTop="50dp"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/aar_ic_rec" />
 
-        <ImageButton
-            android:id="@+id/play"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="50dp"
-            android:layout_toEndOf="@+id/record_start_stop"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/aar_ic_play" />
+        <LinearLayout
+            android:id="@+id/ll_start_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/iv_start_stop"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/aar_ic_rec" />
+            <TextView
+                android:id="@+id/tv_start_stop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:text="@string/record"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_accept"
+            android:layout_width="@dimen/linearlayout_dimens"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/ll_start_stop"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/iv_accept"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttons_small"
+                android:scaleType="fitCenter"
+                android:src="@drawable/aar_ic_check" />
+            <TextView
+                android:id="@+id/tv_accept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:text="@string/accept"
+                />
+        </LinearLayout>
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

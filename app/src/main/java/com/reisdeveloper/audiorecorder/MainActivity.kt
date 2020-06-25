@@ -8,17 +8,21 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.squti.androidwaverecorder.WaveRecorder
 import com.reisdeveloper.audiorecorder.adapters.FilesAdapter
+import com.reisdeveloper.audiorecorder.extensions.formatSeconds
 import com.reisdeveloper.audiorecorder.util.DateTime
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 
@@ -46,30 +50,39 @@ class MainActivity : AppCompatActivity() {
                 ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimaryDark))
             )
         }
+
+        instanceViews()
+
+    }
+
+    private fun instanceViews(){
         rvRecordings = findViewById(R.id.rv_recordings)
 
-        record_start_stop.setOnClickListener {
+        iv_start_stop.setOnClickListener {
             if (!isRecording) {
                 if (permissionGranted()) {
                     startRecording()
                 } else {
                     requestPermissions()
                 }
-            } else {
-                stopRecording()
-            }
-        }
-
-        play.setOnClickListener {
-            if (!isPaused) {
-                pauseRecording()
-            } else {
+            } else if(isPaused) {
                 resumeRecording()
+            }else{
+                pauseRecording()
             }
         }
 
-        ripple.newRipple()
+        tv_start_stop.text = getString(R.string.record)
 
+        ll_accept.visibility = View.GONE
+        iv_accept.setOnClickListener {
+            stopRecording()
+        }
+
+        ll_discard.visibility = View.GONE
+        iv_discard.setOnClickListener {
+            discardRecord()
+        }
     }
 
     private fun permissionGranted()  =
@@ -107,11 +120,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        recordingsAdapter?.clearAudio()
+        recordingsAdapter.clearAudio()
     }
 
     private fun startRecording() {
         isRecording = true
+        isPaused = false
 
         val date = DateTime().Now().getData("yyyy-MM-dd_HHmmss")
 
@@ -119,44 +133,87 @@ class MainActivity : AppCompatActivity() {
 
         waveRecorder = WaveRecorder(filePath)
 
-        /*waveRecorder.onAmplitudeListener = {
+        waveRecorder.onAmplitudeListener = {
             GlobalScope.launch(Dispatchers.Main) {
-                amplitude.text = "Amplitude : $it"
+                if(it > 500 && isPaused.not())
+                    ripple.newRipple()
             }
-        }*/
+        }
 
         waveRecorder.noiseSuppressorActive = true
 
         waveRecorder.startRecording()
         startTimer()
-        record_start_stop.setImageDrawable(getDrawable(R.drawable.aar_ic_stop))
-        play.setImageDrawable(getDrawable(R.drawable.aar_ic_pause))
-    }
-
-    private fun stopRecording() {
-        isRecording = false
-        waveRecorder.stopRecording()
-        Toast.makeText(this, "File saved at : $filePath", Toast.LENGTH_LONG).show()
-        resetTimer()
-        recordingsAdapter?.addRecording(File(filePath))
-        record_start_stop.setImageDrawable(getDrawable(R.drawable.aar_ic_rec))
-        play.setImageDrawable(getDrawable(R.drawable.aar_ic_play))
+        iv_start_stop.setImageDrawable(getDrawable(R.drawable.aar_ic_pause))
+        tv_start_stop.text = getString(R.string.pause)
     }
 
     private fun pauseRecording() {
-        record_start_stop.setImageDrawable(getDrawable(R.drawable.aar_ic_rec))
-        play.setImageDrawable(getDrawable(R.drawable.aar_ic_play))
+        iv_start_stop.setImageDrawable(getDrawable(R.drawable.aar_ic_play))
+        tv_start_stop.text = getString(R.string.play)
+        ll_discard.visibility = View.VISIBLE
+        ll_accept.visibility = View.VISIBLE
+
         isPaused = true
         waveRecorder.pauseRecording()
+
         stopTimer()
     }
 
     private fun resumeRecording() {
-        record_start_stop.setImageDrawable(getDrawable(R.drawable.aar_ic_stop))
-        play.setImageDrawable(getDrawable(R.drawable.aar_ic_pause))
+        iv_start_stop.setImageDrawable(getDrawable(R.drawable.aar_ic_pause))
+        tv_start_stop.text = getString(R.string.pause)
+        ll_discard.visibility = View.GONE
+        ll_accept.visibility = View.GONE
         isPaused = false
         waveRecorder.resumeRecording()
         startTimer()
+    }
+
+    private fun stopRecording() {
+        try {
+            isRecording = false
+            isPaused = false
+
+            waveRecorder.stopRecording()
+
+            Toast.makeText(this, getString(R.string.file_successfully_saved), Toast.LENGTH_LONG).show()
+
+            resetTimer()
+
+            recordingsAdapter.addRecording(File(filePath))
+
+            iv_start_stop.setImageDrawable(getDrawable(R.drawable.aar_ic_rec))
+            tv_start_stop.text = getString(R.string.record)
+            ll_discard.visibility = View.GONE
+            ll_accept.visibility = View.GONE
+
+        }catch (t: Throwable){
+            t.stackTrace
+        }
+    }
+
+    private fun discardRecord(){
+        try {
+            isRecording = false
+            isPaused = false
+
+            waveRecorder.stopRecording()
+
+            resetTimer()
+
+            val f = File(filePath)
+            if(f.exists())
+                f.delete()
+
+            iv_start_stop.setImageDrawable(getDrawable(R.drawable.aar_ic_rec))
+            tv_start_stop.text = getString(R.string.record)
+            ll_discard.visibility = View.GONE
+            ll_accept.visibility = View.GONE
+
+        }catch (t: Throwable){
+            t.stackTrace
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -171,8 +228,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
 
-            else -> {
-            }
+            else -> {}
         }
     }
 
@@ -198,50 +254,36 @@ class MainActivity : AppCompatActivity() {
         runOnUiThread {
             if (isRecording) {
                 recorderSecondsElapsed++
-                tv_timer.text = formatSeconds(recorderSecondsElapsed)
+                tv_timer.text = "".formatSeconds(recorderSecondsElapsed)
             }
         }
     }
 
     private fun resetTimer(){
         recorderSecondsElapsed = 0
-        tv_timer.text = formatSeconds(recorderSecondsElapsed)
+        tv_timer.text = "".formatSeconds(recorderSecondsElapsed)
         stopTimer()
     }
 
-    private fun formatSeconds(seconds: Int): String? {
-        return (getTwoDecimalsValue(seconds / 3600) + ":"
-                + getTwoDecimalsValue(seconds / 60) + ":"
-                + getTwoDecimalsValue(seconds % 60))
-    }
-
-    private fun getTwoDecimalsValue(value: Int): String? {
-        return if (value in 0..9) {
-            "0$value"
-        } else {
-            value.toString() + ""
-        }
-    }
-
     private fun setAdapter() {
-        recordingsAdapter?.clearRecordings()
+        recordingsAdapter.clearRecordings()
+
         if(readPath().isNullOrEmpty().not()){
             readPath()?.forEach {
-                recordingsAdapter?.addRecording(it)
-            }
-
-            with(rvRecordings) {
-                setHasFixedSize(true)
-                itemAnimator = null
-                adapter = recordingsAdapter
-                layoutManager = LinearLayoutManager(
-                    this@MainActivity,
-                    RecyclerView.VERTICAL,
-                    false
-                )
+                recordingsAdapter.addRecording(it)
             }
         }
 
+        with(rvRecordings) {
+            setHasFixedSize(true)
+            itemAnimator = null
+            adapter = recordingsAdapter
+            layoutManager = LinearLayoutManager(
+                this@MainActivity,
+                RecyclerView.VERTICAL,
+                false
+            )
+        }
     }
 
     private fun readPath() = externalCacheDir?.absolutePath?.let{File(it).listFiles()}

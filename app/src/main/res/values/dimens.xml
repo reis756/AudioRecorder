@@ -5,4 +5,6 @@
     <dimen name="aar_footer_height">150dp</dimen>
     <dimen name="rippleRadius">15dp</dimen>
     <dimen name="rippleStrokeWidth">2dp</dimen>
+    <dimen name="linearlayout_dimens">80dp</dimen>
+    <dimen name="buttons_small">64dp</dimen>
 </resources>

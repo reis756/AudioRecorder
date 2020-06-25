@@ -1,10 +1,10 @@
 # AudioRecorder
- A simple application to record audio.
+ A simple application to record audio. No adds, no payments.
  
  References:
  
- Lib
+ Lib Audio Record
  https://github.com/squti/Android-Wave-Recorder
  
- Layout
- https://github.com/adrielcafe/AndroidAudioRecorder
+ Riple Effects
+ https://www.varvet.com/blog/ripple-effect-android/
